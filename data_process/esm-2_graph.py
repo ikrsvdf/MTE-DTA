@@ -23,7 +23,7 @@ def protein_graph_construct(df_proteins, save_dir):
     # 将蛋白质ID添加到list中
     for index, row in df_proteins.iterrows():
         prots.append(row['Sequence'])
-        key_list.append(row['UniProtID'])
+        key_list.append(row['UniProt Accessions'])
 
     # 使用tqdm显示进度条
     for k_i in tqdm(range(len(key_list))):
