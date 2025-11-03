@@ -17,7 +17,8 @@ Specifically, we employ a dual-branch architecture that utilizes multi-modal inf
 This approach effectively aligns drug features and protein features while preventing biased learning in the model. Finally, a linear attention mechanism is adopted to balance the drug-protein interaction features at different scales, thereby enhancing the accuracy of the model in the prediction of downstream tasks.
 
 ## 🚀 Architecture
-![输入图片说明](/imgs/2025-11-03/IAluosUlxDBJOaM8.png)
+<img width="2200" height="947" alt="模型框架" src="https://github.com/user-attachments/assets/8fa35495-6410-4fe5-869b-3cd19ca66089" />
+
 
 ## :blue_heart: Installation
 First, you need to clone our code to your operating system.
