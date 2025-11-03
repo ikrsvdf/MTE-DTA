@@ -10,7 +10,6 @@ import logging
 import pandas as pd
 import warnings
 warnings.filterwarnings("ignore")
-FORCE_REPROCESS = True
 project_root = 'MTE-DTA'  # 根据你的实际路径调整
 os.chdir(project_root)
 
@@ -70,8 +69,7 @@ all_mse, all_rmse, all_mae, all_rm2, all_ci, all_spearman, all_pearson = [], [],
 for n, dataset in enumerate(datasets, start=1):
     print('\nrunning on ', model_st + '_' + dataset)
     ## 1) 数据准备
-    train_data, val_data, test_data = create_DTA_dataset(dataset_name[0], type[0], dataset,
-                                                         force_reprocess=FORCE_REPROCESS)
+    train_data, val_data, test_data = create_DTA_dataset(dataset_name[0], type[0], dataset)
     train_loader = DataLoader(train_data, batch_size=BATCH_SIZE, shuffle=True,num_workers=0, pin_memory=True)
     val_loader = DataLoader(val_data, batch_size=BATCH_SIZE, shuffle=False,num_workers=0, pin_memory=True)
     test_loader = DataLoader(test_data, batch_size=BATCH_SIZE, shuffle=False,num_workers=0, pin_memory=True)
