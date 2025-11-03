@@ -3,9 +3,9 @@ import numpy as np
 import pandas as pd
 import torch
 from transformers import AutoModel, AutoTokenizer
-
+./data/Davis/
 # Initialize ESM2 model and tokenizer
-model_name = "E:\MTE-DTA\´óÄ£ĞÍ\esm2"
+model_name = "./esm2"
 model = AutoModel.from_pretrained(model_name)
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 
@@ -30,15 +30,13 @@ def pad_sequence(sequence, target_length=300):
 
 
 # Read protein sequence data
-df = pd.read_csv("E:\´¦ÀíÊı¾İ\ÌáÈ¡ºÃµÄÊı¾İ\\target_IC50.csv")
+df = pd.read_csv("./data/Davis/protein_davis.csv")
 
-# Check if required columns exist
+# æ ¹æ®æˆªå–çš„300é•¿åº¦çš„æ°¨åŸºé…¸åºåˆ—è¿›è¡Œå¤„ç†processed_sequence
 required_columns = ["UniProtID", "processed_sequence"]
 if all(col in df.columns for col in required_columns):
-    # Remove duplicates based on 'UniProtID' (×¢Òâ£ºÔ­´úÂë´Ë´¦ÓĞÃ¬¶Ü£¬°´ÄúÒªÇó±£Áôtarget_key)
     df_unique = df.drop_duplicates(subset=["UniProtID"])
-
-    # Process sequences (Ö»¶Ô²»×ã300µÄ½øĞĞÌî³ä)
+    # Process sequences (åªå¯¹ä¸è¶³300çš„è¿›è¡Œå¡«å……)
     df_unique["final_sequence"] = df_unique["processed_sequence"].apply(pad_sequence)
 
     # Compute embeddings
@@ -48,7 +46,7 @@ if all(col in df.columns for col in required_columns):
     }
 
     # Save embeddings
-    save_path = "E:\´¦ÀíÊı¾İ\ÌáÈ¡ºÃµÄÊı¾İ\\sequence_300_acid.npy"
+    save_path = "./data/Davis/sequence_300_acid.npy"
     np.save(save_path, sequence_embeddings, allow_pickle=True)
     print(f"Protein sequence embeddings have been saved to {save_path}")
 else:
