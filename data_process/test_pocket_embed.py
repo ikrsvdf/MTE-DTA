@@ -3,7 +3,6 @@ import numpy as np
 import pandas as pd
 import torch
 from transformers import AutoModel, AutoTokenizer
-./data/Davis/
 # Initialize ESM2 model and tokenizer
 model_name = "./esm2"
 model = AutoModel.from_pretrained(model_name)
@@ -33,7 +32,7 @@ def pad_sequence(sequence, target_length=300):
 df = pd.read_csv("./data/Davis/protein_davis.csv")
 
 # 根据截取的300长度的氨基酸序列进行处理processed_sequence
-required_columns = ["UniProtID", "processed_sequence"]
+required_columns = ["UniProt Accessions", "processed_sequence"]
 if all(col in df.columns for col in required_columns):
     df_unique = df.drop_duplicates(subset=["UniProtID"])
     # Process sequences (只对不足300的进行填充)
@@ -41,7 +40,7 @@ if all(col in df.columns for col in required_columns):
 
     # Compute embeddings
     sequence_embeddings = {
-        row["UniProtID"]: sequence_to_vector(row["final_sequence"])
+        row["UniProt Accessions"]: sequence_to_vector(row["final_sequence"])
         for _, row in df_unique.iterrows()
     }
 
