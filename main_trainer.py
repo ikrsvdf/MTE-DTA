@@ -9,8 +9,6 @@ from preprocess.utils import *
 import logging
 import pandas as pd
 import warnings
-from Radam import RAdam
-from lookahead import Lookahead
 warnings.filterwarnings("ignore")
 FORCE_REPROCESS = True
 project_root = 'MTE-DTA'  # 根据你的实际路径调整
@@ -80,7 +78,7 @@ for n, dataset in enumerate(datasets, start=1):
 
     ##  2） 构建结构保存路径
     fold_name = "{}_Fold/".format(n)
-    save_path_i = os.path.join(dataset_name[3], fold_name)
+    save_path_i = os.path.join(dataset_name[0], fold_name)
     if not os.path.exists(save_path_i):
         os.makedirs(save_path_i)
 
@@ -109,14 +107,14 @@ for n, dataset in enumerate(datasets, start=1):
         print('epoch-%d, train_loss-%.3f, val_loss-%.3f, val_mse-%.3f, val_mae-%.3f, val_person-%.3f, val_spearman-%.3f' % (
             epoch + 1, train_loss, val_loss, val_mse, val_mae, val_person, val_spearman))
         # 在训练循环中添加
-        with open('training_log_多.txt', 'a') as f:
+        with open('training_log.txt', 'a') as f:
             f.write('epoch-%d, train_loss-%.3f, val_loss-%.3f, val_mse-%.3f, val_mae-%.3f, val_person-%.3f, val_spearman-%.3f\n' % (
                 epoch + 1, train_loss, val_loss, val_mse, val_mae, val_person, val_spearman))
 
         if  val_mse < best_mse:
             best_mse = val_mse
             patience = 0
-            torch.save(model.state_dict(), save_path_i + model_st + '-valid_best_model_多.pth')
+            torch.save(model.state_dict(), save_path_i + model_st + '-valid_best_model.pth')
         else:
             patience += 1
             
@@ -126,16 +124,16 @@ for n, dataset in enumerate(datasets, start=1):
             model.load_state_dict(torch.load(save_path_i + model_st + "-valid_best_model.pth"))
             test_loss, G_test, P_test = test(test_loader, model, loss_fn)
             
-            test_csv_path = os.path.join('data', dataset_name[3], type[0], dataset, 'data_test.csv')
+            test_csv_path = os.path.join('data', dataset_name[0], type[0], dataset, 'data_test.csv')
             df_test_full = pd.read_csv(test_csv_path, encoding='gbk')
             
             # 创建包含epoch信息的文件名
             epoch_output_csv_path = f'{model_st}_test_predictions.csv'
             
             fold_results = pd.DataFrame({
-                'Ligand SMILES': df_test_full['Ligand SMILES'],
+                'Smiles': df_test_full['Smiles'],
                 'Sequence': df_test_full['Sequence'],
-                'UniProtID': df_test_full['UniProtID'],
+                'UniProt Accessions': df_test_full['UniProt Accessions'],
                 'BindingDB MonomerID': df_test_full['BindingDB MonomerID'],
                 'Average_pIC50': df_test_full['Average_pIC50'],
                 'Predicted_pIC50': P_test
@@ -159,9 +157,9 @@ for n, dataset in enumerate(datasets, start=1):
     test_csv_path = os.path.join('data', dataset_name[0], type[0], dataset, 'data_test.csv')
     df_test_full = pd.read_csv(test_csv_path, encoding='gbk')
     fold_results = pd.DataFrame({
-        'Ligand SMILES': df_test_full['Ligand SMILES'],
+        'Smiles': df_test_full['Smiles'],
         'Sequence': df_test_full['Sequence'],
-        'UniProtID': df_test_full['UniProtID'],
+        'UniProt Accessions': df_test_full['UniProt Accessions'],
         'BindingDB MonomerID': df_test_full['BindingDB MonomerID'],
         'Average_pIC50': df_test_full['Average_pIC50'],
         'Predicted_pIC50': P
