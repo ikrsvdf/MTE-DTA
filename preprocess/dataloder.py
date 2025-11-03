@@ -259,7 +259,7 @@ def sequence_to_graph(target_key, target_sequence, distance_dir):
     return target_size, target_feature, target_edge_index, target_edge_distance  # 返回序列长度，节点特征，节点边索引，节点边距离
 
 
-def create_DTA_dataset(dataset_name, type, dataset, force_reprocess=False):
+def create_DTA_dataset(dataset_name, type, dataset):
     # 加载蛋白质特征和距离图
     process_dir = os.path.join('data')
     pro_distance_dir = os.path.join(process_dir, dataset_name, 'sequence_representations_davis')
