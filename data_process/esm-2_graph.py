@@ -12,7 +12,7 @@ from tqdm import tqdm
 
 def protein_graph_construct(df_proteins, save_dir):
     # Load ESM-2 model
-    model_path = 'E:\MTE-DTA\大模型\esm2\esm2_t33_650M_UR50D.pt'  # 修改为你的 ESM-2 模型路径
+    model_path = './esm2/esm2_t33_650M_UR50D.pt'  # 修改为你的 ESM-2 模型路径
     model, alphabet = esm.pretrained.load_model_and_alphabet_local(model_path)
     batch_converter = alphabet.get_batch_converter()
     model.eval()
@@ -80,11 +80,11 @@ if __name__ == '__main__':
 
     # for test
     dataset = 'davis'
-    df_proteins = pd.read_csv('E:\处理数据\提取好的数据\\target_IC50.csv',encoding='gbk')
+    df_proteins = pd.read_csv('./data/Davis/protein_davis.csv',encoding='gbk')
     print('dataset:', dataset)
     print(len(df_proteins))
 
-    save_dir = 'E:\MTE-DTA\data\IC50\sequence_representations_davis\\'
+    save_dir = './data/Davis/sequence_representations_davis/'
     if not os.path.exists(save_dir):  # 如果保存路径不存在，则创建目录
         os.makedirs(save_dir)
     protein_graph_construct(df_proteins, save_dir)  # 构建蛋白质图并保存
