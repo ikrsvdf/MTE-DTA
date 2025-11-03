@@ -14,10 +14,7 @@ warnings.filterwarnings("ignore")
 # 在代码开头添加，切换到项目根目录
 project_root = 'MTE-DTA'  # 根据你的实际路径调整
 os.chdir(project_root)
-# 方法1：抑制所有RDKit警告
 RDLogger.DisableLog('rdApp.*')
-
-# 方法2：只抑制弃用警告
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 def dic_normalize(dic):  # 对字典中的值进行归一化
@@ -268,11 +265,11 @@ def create_DTA_dataset(dataset_name, type, dataset, force_reprocess=False):
     pro_distance_dir = os.path.join(process_dir, dataset_name, 'sequence_representations_davis')
 
     # 加载药物数据
-    ligands_paths = os.path.join('data', dataset_name, 'drug_IC50.csv')
+    ligands_paths = os.path.join('data', dataset_name, 'drug_davis.csv')
     df_ligands = pd.read_csv(ligands_paths)
 
     # 加载蛋白质数据
-    proteins_paths = os.path.join('data', dataset_name, 'target_IC50.csv')
+    proteins_paths = os.path.join('data', dataset_name, 'protein_davis.csv')
     df_proteins = pd.read_csv(proteins_paths)
 
     # 构建药物图字典
@@ -304,7 +301,6 @@ def create_DTA_dataset(dataset_name, type, dataset, force_reprocess=False):
         target_emb[prot_key] = emb.astype(np.float32)
 
     # 加载训练、验证、测试数据
-    # train_csv = os.path.join('data', dataset_name, type, dataset, 'data_train_new.csv')
     train_csv = os.path.join('data', dataset_name, type, dataset, 'data_train.csv')
     val_csv = os.path.join('data', dataset_name, type, dataset, 'data_val.csv')
     test_csv = os.path.join('data', dataset_name, type, dataset, 'data_test.csv')
@@ -315,16 +311,16 @@ def create_DTA_dataset(dataset_name, type, dataset, force_reprocess=False):
 
     # 提取数据
     train_drugs, train_prots, train_target_key, train_Y = (
-        list(df_train['Ligand SMILES']), list(df_train['Sequence']),
-        list(df_train['UniProtID']), list(df_train['Average_pIC50'])
+        list(df_train['Smiles']), list(df_train['Sequence']),
+        list(df_train['UniProt Accessions']), list(df_train['Average_pIC50'])
     )
     val_drugs, val_prots, val_target_key, val_Y = (
-        list(df_val['Ligand SMILES']), list(df_val['Sequence']),
-        list(df_val['UniProtID']), list(df_val['Average_pIC50'])
+        list(df_val['Smiles']), list(df_val['Sequence']),
+        list(df_val['UniProt Accessions']), list(df_val['Average_pIC50'])
     )
     test_drugs, test_prots, test_target_key, test_Y = (
-        list(df_test['Ligand SMILES']), list(df_test['Sequence']),
-        list(df_test['UniProtID']), list(df_test['Average_pIC50'])
+        list(df_test['Smiles']), list(df_test['Sequence']),
+        list(df_test['UniProt Accessions']), list(df_test['Average_pIC50'])
     )
 
     # 转换为numpy数组
