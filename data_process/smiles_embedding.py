@@ -17,7 +17,7 @@ model = model.eval()
 
 # Load data
 df = pd.read_csv('./data/Davis/drug_davis.csv')
-df = df.drop_duplicates(subset=["Ligand SMILES"])
+df = df.drop_duplicates(subset=["Smiles"])
 smiles_list = df['Ligand SMILES'].tolist()
 drugbank_ids = df['Ligand SMILES'].tolist()
 print(f"Total SMILES: {len(smiles_list)}")
@@ -78,6 +78,6 @@ for drugbank_id, smiles in tqdm(zip(drugbank_ids, smiles_list), total=len(smiles
     compounds_dict[drugbank_id] = output
 
 # Save embeddings
-np.save('./data/Davis/new_drug_embedding.npy',
+np.save('./data/Davis/drug_embedding.npy',
         compounds_dict, allow_pickle=True)
 print('SMILES embeddings generated successfully')
