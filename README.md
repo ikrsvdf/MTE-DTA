@@ -1,4 +1,4 @@
-Abstract：Parasites, including protozoa and helminths, are diverse and widely transmitted, causing numerous diseases and being major contributors to outbreaks in many regions worldwide. 
+#Abstract：Parasites, including protozoa and helminths, are diverse and widely transmitted, causing numerous diseases and being major contributors to outbreaks in many regions worldwide. 
 Although various antiparasitic drugs are currently in use, their efficacy is often limited by high costs, toxicity, significant side effects, and drug resistance. 
 Therefore, developing novel, safe, and effective antiparasitic treatments has become an urgent and important challenge. 
 Antiparasitic drugs typically function by interfering with key proteins within parasites; therefore, identifying potential drug targets and predicting their binding affinity to candidate compounds are crucial steps in antiparasitic drug discovery.
