@@ -9,14 +9,14 @@ from rdkit import Chem
 from torch import nn
 
 # Initialize tokenizer and model
-tokenizer = AutoTokenizer.from_pretrained("E:\处理数据\大模型\chemBERTa")
-model = AutoModelForMaskedLM.from_pretrained("E:\处理数据\大模型\chemBERTa")
+tokenizer = AutoTokenizer.from_pretrained("./chemBERTa")
+model = AutoModelForMaskedLM.from_pretrained("./chemBERTa")
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 model.to(device)
 model = model.eval()
 
 # Load data
-df = pd.read_csv('E:\处理数据\提取好的数据\drug_IC50.csv')
+df = pd.read_csv('./data/Davis/drug_davis.csv')
 df = df.drop_duplicates(subset=["Ligand SMILES"])
 smiles_list = df['Ligand SMILES'].tolist()
 drugbank_ids = df['Ligand SMILES'].tolist()
@@ -78,6 +78,6 @@ for drugbank_id, smiles in tqdm(zip(drugbank_ids, smiles_list), total=len(smiles
     compounds_dict[drugbank_id] = output
 
 # Save embeddings
-np.save('E:\处理数据\提取好的数据\\new_drug_embedding.npy',
+np.save('./data/Davis/new_drug_embedding.npy',
         compounds_dict, allow_pickle=True)
 print('SMILES embeddings generated successfully')
